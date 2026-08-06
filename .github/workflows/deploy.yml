@@ -12,10 +12,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy to CloudBase Static Hosting
-        uses: TencentCloudBase/cloudbase-action@v2
-        with:
-          secretId: ${{ secrets.TCB_SECRET_ID }}
-          secretKey: ${{ secrets.TCB_SECRET_KEY }}
-          envId: ${{ secrets.TCB_ENV_ID }}
-          staticSrcPath: ./
+      - name: Install CloudBase CLI
+        run: sudo npm install -g @cloudbase/cli --loglevel=error --no-fund --no-audit --no-progress --prefer-offline
+
+      - name: Login to CloudBase
+        run: tcb login --apiKeyId "${{ secrets.TCB_SECRET_ID }}" --apiKey "${{ secrets.TCB_SECRET_KEY }}"
+
+      - name: Deploy static site
+        run: tcb hosting deploy ./ -e "${{ secrets.TCB_ENV_ID }}" --ignore "cloudfunctions,.github,.git,cloudbaserc.json,README.md"
