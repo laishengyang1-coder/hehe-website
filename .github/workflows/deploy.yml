@@ -27,9 +27,9 @@ jobs:
           rsync -a --exclude '.git' --exclude '.github' --exclude 'cloudfunctions' --exclude 'cloudbaserc.json' --exclude 'README.md' --exclude 'COLLABORATING.md' ./ /tmp/site/
           echo "==== /tmp/site 文件数 ===="
           find /tmp/site -type f | wc -l
-          echo "==== tcb hosting deploy（300s 超时保护，防止 manifest 阶段无限挂起）===="
-          timeout 300 tcb hosting deploy /tmp/site -e "${{ secrets.TCB_ENV_ID }}" 2>&1 | tail -40
-        timeout-minutes: 8
+          echo "==== tcb hosting deploy（600s 超时保护，防止 manifest 阶段无限挂起）===="
+          timeout 600 tcb hosting deploy /tmp/site -e "${{ secrets.TCB_ENV_ID }}" 2>&1 | tail -40
+        timeout-minutes: 15
 
       - name: Clean stray legacy files
         run: |
