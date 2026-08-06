@@ -23,3 +23,6 @@ jobs:
           mkdir -p /tmp/site
           rsync -a --exclude '.git' --exclude '.github' --exclude 'cloudfunctions' --exclude 'cloudbaserc.json' --exclude 'README.md' ./ /tmp/site/
           tcb hosting deploy /tmp/site -e "${{ secrets.TCB_ENV_ID }}"
+
+      - name: Clean stray legacy files
+        run: tcb hosting delete README.md -e "${{ secrets.TCB_ENV_ID }}" || echo "README.md not present, skip"
