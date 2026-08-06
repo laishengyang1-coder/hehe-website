@@ -216,16 +216,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* ---------- 联系表单 ---------- */
-    const contactForm = document.querySelector('#contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            alert('感谢您的留言！我们会尽快与您联系。');
-            contactForm.reset();
-        });
-    }
-
     /* ---------- 搜索 ---------- */
     const searchBtn = document.querySelector('.search-box button');
     const searchInput = document.querySelector('.search-box input');
@@ -238,6 +228,60 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         searchInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') searchBtn.click();
+        });
+    }
+
+    /* ---------- 联系表单提交（CloudBase 云函数） ---------- */
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        // 默认走静态托管路由 /api/contact（同源）；
+        // 若改用云函数 HTTP 访问服务，在 <form data-api="..."> 填独立地址即可
+        const API_URL = contactForm.getAttribute('data-api') || '/api/contact';
+
+        let resultTip = contactForm.querySelector('.submit-result');
+        if (!resultTip) {
+            resultTip = document.createElement('p');
+            resultTip.className = 'submit-result';
+            resultTip.style.cssText = 'margin-top:16px;font-size:.9rem;min-height:1.2em;';
+            contactForm.appendChild(resultTip);
+        }
+        function showTip(msg, ok) {
+            resultTip.textContent = msg;
+            resultTip.style.color = ok ? '#e8e2d6' : '#ff6b6b';
+        }
+
+        contactForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = contactForm.querySelector('button[type="submit"]');
+            const original = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '提交中...';
+
+            const data = Object.fromEntries(new FormData(contactForm).entries());
+            if (!data.name || !data.phone || !data.message) {
+                showTip('请填写姓名、电话和留言内容', false);
+                btn.disabled = false; btn.textContent = original;
+                return;
+            }
+
+            try {
+                const r = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const j = await r.json().catch(() => ({ ok: false, msg: '返回数据解析失败' }));
+                if (j.ok) {
+                    contactForm.reset();
+                    showTip('✅ ' + (j.msg || '提交成功，我们会尽快联系您'), true);
+                } else {
+                    showTip('❌ ' + (j.msg || '提交失败，请稍后重试'), false);
+                }
+            } catch (err) {
+                showTip('❌ 网络错误，请稍后重试', false);
+            } finally {
+                btn.disabled = false; btn.textContent = original;
+            }
         });
     }
 });

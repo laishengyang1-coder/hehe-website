@@ -1,0 +1,9 @@
+{
+  "name": "submit-contact",
+  "version": "1.0.0",
+  "description": "和和新材官网 - 联系表单提交云函数",
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "^2.7.0"
+  }
+}
