@@ -93,6 +93,10 @@ exports.main = async (event, context) => {
 
   try {
     const db = getApp().database();
+    // 集合不存在时自动创建（避免手动建集合；已存在会报错，忽略即可）
+    try {
+      await db.createCollection('contacts');
+    } catch (e) { /* 已存在时忽略 */ }
     await db.collection('contacts').add({
       name, phone, email, address, message,
       createdAt: new Date(),

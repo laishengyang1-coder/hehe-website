@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.5/400.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.5/500.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <meta name="description" content="产品应用 - 隐形车衣、改色车衣、太阳膜、天窗冰甲、新能源电池膜材，五大产品线覆盖汽车膜全场景应用。">
+    <meta property="og:title" content="产品应用 - 安徽和和新材料有限公司">
+    <meta property="og:description" content="产品应用 - 隐形车衣、改色车衣、太阳膜、天窗冰甲、新能源电池膜材，五大产品线覆盖汽车膜全场景应用。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://new.heheppf.com/product.html">
+    <meta property="og:image" content="https://new.heheppf.com/assets/images/20250716/guanwangpingtaibanner13.webp">
 </head>
 <body>
 
@@ -33,7 +40,7 @@
 
 <!-- Page Banner -->
 <section class="page-banner" id="pageBanner">
-    <img id="bannerImg" src="" alt="产品应用">
+    <img id="bannerImg" src="" alt="产品应用" loading="lazy">
     <div class="page-banner-content">
         <h1 id="pageTitle">产品应用</h1>
         <p id="pageSubtitle">PRODUCTS</p>
@@ -62,7 +69,7 @@
 
 <!-- CTA Section -->
 <section class="cta-section">
-    <div class="cta-bg"><img src="assets/images/20240926/b1_bg03.jpg" alt="联系我们"></div>
+    <div class="cta-bg"><img src="assets/images/20240926/b1_bg03.webp" alt="联系我们" loading="lazy"></div>
     <div class="cta-overlay"></div>
     <div class="cta-content">
         <h2>无论您有什么需求，我们都会帮助您找到最适合的解决方案。</h2>
@@ -105,7 +112,7 @@ const products = {
     '5': {
         name: '隐形车衣',
         subtitle: 'Paint Protection Film',
-        banner: 'assets/images/20250716/guanwangpingtaibanner13.png',
+        banner: 'assets/images/20250716/guanwangpingtaibanner13.webp',
         title: '隐形车衣',
         desc: '全方位守护，让爱车历久弥新，彰显非凡品味。',
         features: [
@@ -121,7 +128,7 @@ const products = {
     '4': {
         name: '改色车衣',
         subtitle: 'Color Change Film',
-        banner: 'assets/images/20250716/gaiseendx.png',
+        banner: 'assets/images/20250716/gaiseendx.webp',
         title: '改色车衣',
         desc: '集时尚保护与卓越性能于一身。',
         features: [
@@ -137,7 +144,7 @@ const products = {
     '3': {
         name: '太阳膜',
         subtitle: 'Solar Film',
-        banner: 'assets/images/20250716/weixintupian_20250716101346.jpg',
+        banner: 'assets/images/20250716/weixintupian_20250716101346.webp',
         title: '太阳膜',
         desc: '高效防晒隔热，守护爱车每一寸空间。',
         features: [
@@ -153,7 +160,7 @@ const products = {
     '2': {
         name: '天窗冰甲',
         subtitle: 'Sunroof Ice Shield',
-        banner: 'assets/images/20240926/b1_img05-924.jpg',
+        banner: 'assets/images/20240926/b1_img05-924.webp',
         title: '天窗冰甲',
         desc: '隔绝热量，保护天窗，清凉驾乘。',
         features: [
@@ -169,7 +176,7 @@ const products = {
     '1': {
         name: '新能源电池膜材',
         subtitle: 'Battery Film Material',
-        banner: 'assets/images/20241018/2.jpg',
+        banner: 'assets/images/20241018/2.webp',
         title: '新能源电池膜材',
         desc: '为新能源安全保驾护航。',
         features: [
@@ -219,7 +226,7 @@ content.innerHTML = `
 const otherProducts = Object.entries(products).filter(([id]) => id !== productId);
 const otherHtml = otherProducts.map(([id, p]) => `
     <a href="product.html?id=${id}" class="product-card fade-in">
-        <img src="${p.banner}" alt="${p.name}">
+        <img src="${p.banner}" alt="${p.name}" loading="lazy">
         <div class="product-card-arrow">→</div>
         <div class="product-card-overlay">
             <h3>${p.name}</h3>

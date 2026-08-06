@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.5/400.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.5/500.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <meta name="description" content="联系我们 - 安徽和和新材料有限公司，专业客服团队快速响应您的咨询与留言。">
+    <meta property="og:title" content="联系我们 - 安徽和和新材料有限公司">
+    <meta property="og:description" content="联系我们 - 安徽和和新材料有限公司，专业客服团队快速响应您的咨询与留言。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://new.heheppf.com/contact.html">
+    <meta property="og:image" content="https://new.heheppf.com/assets/images/20250716/guanwangpingtaibanner13.webp">
 </head>
 <body>
 
@@ -33,7 +40,7 @@
 
 <!-- Page Banner -->
 <section class="page-banner">
-    <img src="assets/images/20240926/b1_bg03.jpg" alt="联系我们">
+    <img src="assets/images/20240926/b1_bg03.webp" alt="联系我们" loading="lazy">
     <div class="page-banner-content">
         <h1>联系我们</h1>
         <p>CONTACT US</p>
@@ -72,7 +79,11 @@
                     </div>
                     <div class="form-group">
                         <label>验证码 <span class="required">*</span></label>
-                        <input type="text" name="captcha" required style="width:200px">
+                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                            <input type="text" name="captcha" required style="width:140px" autocomplete="off" placeholder="计算结果">
+                            <span id="captchaBox" style="font-size:1.15rem;font-weight:600;letter-spacing:1px;color:#e9481a;white-space:nowrap">…</span>
+                            <button type="button" id="captchaRefresh" style="background:none;border:1px solid rgba(232,226,214,.35);color:inherit;padding:5px 12px;cursor:pointer;font-size:.8rem;border-radius:3px">换一题</button>
+                        </div>
                     </div>
                     <p class="form-tip">温馨提示：请您填写真实的姓名和联系方式，专业客服团队将在15分钟内联系您</p>
                     <button type="submit" class="btn btn-red" style="margin-top:20px">提交留言</button>

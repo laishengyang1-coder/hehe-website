@@ -216,18 +216,50 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* ---------- 搜索 ---------- */
+    /* ---------- 站内搜索（纯前端索引） ---------- */
     const searchBtn = document.querySelector('.search-box button');
     const searchInput = document.querySelector('.search-box input');
     if (searchBtn && searchInput) {
-        searchBtn.addEventListener('click', function () {
-            const keyword = searchInput.value.trim();
-            if (keyword) {
-                alert('搜索: ' + keyword + '\n（搜索功能待部署后端后启用）');
+        const SITE_INDEX = [
+            { t: '首页', d: '和和新材 · 全链车膜工厂', u: 'index.html', k: ['首页','和和','车膜','工厂','新材','hehe','主页'] },
+            { t: '关于和和', d: '公司介绍 · 发展历程 · 企业文化', u: 'about.html', k: ['关于','公司','介绍','发展','文化','历程','荣誉','资质'] },
+            { t: '产品应用', d: '隐形车衣 · 改色车衣 · 太阳膜 · 天窗冰甲', u: 'product.html', k: ['产品','隐形车衣','改色','太阳膜','天窗','冰甲','新能源','电池','膜材','tpu'] },
+            { t: '品牌世界', d: '和膜 · 和膜和彩 · KAKA', u: 'brand.html', k: ['品牌','和膜','和彩','kaka','卡卡'] },
+            { t: '创新中心', d: '偃月实验室 · 研发实力', u: 'innovation.html', k: ['创新','研发','实验','技术','偃月','专利'] },
+            { t: '新闻资讯', d: '公司动态 · 行业资讯', u: 'news.html', k: ['新闻','资讯','动态','行业','展会'] },
+            { t: '联系我们', d: '留言咨询 · 联系方式', u: 'contact.html', k: ['联系','留言','电话','地址','咨询','客服','邮箱'] },
+        ];
+
+        const panel = document.createElement('div');
+        panel.className = 'search-panel';
+        panel.style.cssText = 'position:fixed;top:72px;left:50%;transform:translateX(-50%);width:min(560px,92vw);background:#161617;border:1px solid rgba(232,226,214,.14);border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.55);z-index:9999;max-height:62vh;overflow:auto;display:none;';
+        document.body.appendChild(panel);
+
+        function doSearch(kw) {
+            const q = kw.toLowerCase().trim();
+            if (!q) { panel.style.display = 'none'; return; }
+            const hits = SITE_INDEX.filter(function (it) {
+                return it.t.toLowerCase().includes(q) ||
+                       it.d.toLowerCase().includes(q) ||
+                       it.k.some(function (k) { return k.toLowerCase().includes(q); });
+            });
+            if (!hits.length) {
+                panel.innerHTML = '<div style="padding:20px;color:#8a857b;font-size:.88rem;font-family:Inter,sans-serif;">未找到与「' + kw + '」相关的内容，试试「产品」「品牌」等关键词</div>';
+            } else {
+                panel.innerHTML = hits.map(function (h) {
+                    return '<a href="' + h.u + '" style="display:block;padding:15px 20px;border-bottom:1px solid rgba(232,226,214,.08);text-decoration:none;transition:background .2s;" onmouseover="this.style.background=\'rgba(233,72,26,.08)\'" onmouseout="this.style.background=\'transparent\'">' +
+                        '<div style="color:#e8e2d6;font-size:.95rem;font-weight:600;font-family:\'Noto Serif SC\',serif;">' + h.t + '</div>' +
+                        '<div style="color:#8a857b;font-size:.8rem;margin-top:3px;font-family:Inter,sans-serif;">' + h.d + '</div></a>';
+                }).join('') + '<div style="padding:10px 20px;color:#6b675f;font-size:.75rem;font-family:Inter,sans-serif;">共 ' + hits.length + ' 条结果</div>';
             }
-        });
-        searchInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') searchBtn.click();
+            panel.style.display = 'block';
+        }
+
+        searchBtn.addEventListener('click', function () { doSearch(searchInput.value); });
+        searchInput.addEventListener('keypress', function (e) { if (e.key === 'Enter') doSearch(searchInput.value); });
+        searchInput.addEventListener('input', function () { doSearch(searchInput.value); });
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.search-box') && !e.target.closest('.search-panel')) panel.style.display = 'none';
         });
     }
 
@@ -237,6 +269,21 @@ document.addEventListener('DOMContentLoaded', function () {
         // 默认走静态托管路由 /api/contact（同源）；
         // 若改用云函数 HTTP 访问服务，在 <form data-api="..."> 填独立地址即可
         const API_URL = contactForm.getAttribute('data-api') || '/api/contact';
+
+        /* ---------- 简单算式验证码 ---------- */
+        const captchaBox = document.getElementById('captchaBox');
+        const captchaRefresh = document.getElementById('captchaRefresh');
+        let captchaAnswer = 0;
+        function newCaptcha() {
+            const a = Math.floor(Math.random() * 8) + 2;
+            const b = Math.floor(Math.random() * 8) + 2;
+            captchaAnswer = a + b;
+            if (captchaBox) captchaBox.textContent = a + ' + ' + b + ' = ?';
+            const inp = contactForm.querySelector('input[name="captcha"]');
+            if (inp) inp.value = '';
+        }
+        newCaptcha();
+        if (captchaRefresh) captchaRefresh.addEventListener('click', newCaptcha);
 
         let resultTip = contactForm.querySelector('.submit-result');
         if (!resultTip) {
@@ -260,6 +307,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = Object.fromEntries(new FormData(contactForm).entries());
             if (!data.name || !data.phone || !data.message) {
                 showTip('请填写姓名、电话和留言内容', false);
+                btn.disabled = false; btn.textContent = original;
+                return;
+            }
+            // 验证码校验
+            if (parseInt(data.captcha, 10) !== captchaAnswer) {
+                showTip('验证码不正确，请重新计算', false);
+                newCaptcha();
                 btn.disabled = false; btn.textContent = original;
                 return;
             }
