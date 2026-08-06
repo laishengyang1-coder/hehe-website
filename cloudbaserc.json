@@ -1,0 +1,16 @@
+{
+  "envId": "heheppf-web-d0glw1dwl739721fc",
+  "version": "2.0",
+  "framework": {
+    "name": "hehe-website",
+    "plugins": {
+      "client": {
+        "use": "@cloudbase/framework-plugin-website",
+        "inputs": {
+          "outputPath": "./",
+          "cloudPath": "/"
+        }
+      }
+    }
+  }
+}
