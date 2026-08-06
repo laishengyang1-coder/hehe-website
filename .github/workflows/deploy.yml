@@ -19,4 +19,7 @@ jobs:
         run: tcb login --apiKeyId "${{ secrets.TCB_SECRET_ID }}" --apiKey "${{ secrets.TCB_SECRET_KEY }}"
 
       - name: Deploy static site
-        run: tcb hosting deploy ./ -e "${{ secrets.TCB_ENV_ID }}" --ignore "cloudfunctions,.github,.git,cloudbaserc.json,README.md"
+        run: |
+          mkdir -p /tmp/site
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'cloudfunctions' --exclude 'cloudbaserc.json' --exclude 'README.md' ./ /tmp/site/
+          tcb hosting deploy /tmp/site -e "${{ secrets.TCB_ENV_ID }}"
