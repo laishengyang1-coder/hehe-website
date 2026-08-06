@@ -19,10 +19,21 @@ jobs:
         run: tcb login --apiKeyId "${{ secrets.TCB_SECRET_ID }}" --apiKey "${{ secrets.TCB_SECRET_KEY }}"
 
       - name: Deploy static site
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
+          set -x
           mkdir -p /tmp/site
           rsync -a --exclude '.git' --exclude '.github' --exclude 'cloudfunctions' --exclude 'cloudbaserc.json' --exclude 'README.md' --exclude 'COLLABORATING.md' ./ /tmp/site/
-          tcb hosting deploy /tmp/site -e "${{ secrets.TCB_ENV_ID }}"
+          echo "==== /tmp/site 文件数 ===="
+          find /tmp/site -type f | wc -l
+          echo "==== tcb hosting deploy（300s 超时保护，防止 manifest 阶段无限挂起）===="
+          timeout 300 tcb hosting deploy /tmp/site -e "${{ secrets.TCB_ENV_ID }}" 2>&1 | tail -40
+        timeout-minutes: 8
 
       - name: Clean stray legacy files
-        run: tcb hosting delete README.md -e "${{ secrets.TCB_ENV_ID }}" || echo "README.md not present, skip"
+        run: |
+          tcb hosting delete README.md -e "${{ secrets.TCB_ENV_ID }}" 2>/dev/null || echo "README.md not present, skip"
+          # 清理历史上传但已移出仓库的残留大图（2026-08-06 logo 替换遗留）
+          tcb hosting delete assets/images/logo.png -e "${{ secrets.TCB_ENV_ID }}" 2>/dev/null || echo "assets/images/logo.png not present, skip"
+          tcb hosting delete assets/images/logo-original.png -e "${{ secrets.TCB_ENV_ID }}" 2>/dev/null || echo "assets/images/logo-original.png not present, skip"
