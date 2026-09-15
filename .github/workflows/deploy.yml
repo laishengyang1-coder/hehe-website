@@ -1,39 +1,58 @@
-name: Deploy to CloudBase
+name: Deploy to Lighthouse
+
+# 官网实际由腾讯云 Lighthouse 服务器承载（134.175.187.12，Nginx + /var/www/heheppf）
+# 推送 main 后通过 rsync over SSH 发布，并用线上首页做一次健康检查。
+# 注意：CloudBase 已于 2026-09-01 弃用（其要求的 CNAME 无法在当前 DNS 服务商配置），
+#      原 "Deploy to CloudBase" 工作流已移除，否则会出现「部署成功但线上不更新」。
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+# 同一时间只跑一个部署，避免并发 rsync 互相干扰
+concurrency:
+  group: deploy-lighthouse
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install CloudBase CLI
-        run: sudo npm install -g @cloudbase/cli --loglevel=error --no-fund --no-audit --no-progress --prefer-offline
-
-      - name: Login to CloudBase
-        run: tcb login --apiKeyId "${{ secrets.TCB_SECRET_ID }}" --apiKey "${{ secrets.TCB_SECRET_KEY }}"
-
-      - name: Deploy static site
-        env:
-          DEBIAN_FRONTEND: noninteractive
+      - name: 配置 SSH 部署密钥
         run: |
-          set -x
-          mkdir -p /tmp/site
-          rsync -a --exclude '.git' --exclude '.github' --exclude 'cloudfunctions' --exclude 'cloudbaserc.json' --exclude 'README.md' --exclude 'COLLABORATING.md' ./ /tmp/site/
-          echo "==== /tmp/site 文件数 ===="
-          find /tmp/site -type f | wc -l
-          echo "==== tcb hosting deploy（600s 超时保护，防止 manifest 阶段无限挂起）===="
-          timeout 600 tcb hosting deploy /tmp/site -e "${{ secrets.TCB_ENV_ID }}" 2>&1 | tail -40
-        timeout-minutes: 15
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.LH_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.LH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
+          echo "SSH 配置完成"
 
-      - name: Clean stray legacy files
+      - name: 同步站点文件到服务器
         run: |
-          tcb hosting delete README.md -e "${{ secrets.TCB_ENV_ID }}" 2>/dev/null || echo "README.md not present, skip"
-          # 清理历史上传但已移出仓库的残留大图（2026-08-06 logo 替换遗留）
-          tcb hosting delete assets/images/logo.png -e "${{ secrets.TCB_ENV_ID }}" 2>/dev/null || echo "assets/images/logo.png not present, skip"
-          tcb hosting delete assets/images/logo-original.png -e "${{ secrets.TCB_ENV_ID }}" 2>/dev/null || echo "assets/images/logo-original.png not present, skip"
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=15" \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='cloudfunctions/' \
+            --exclude='cloudbaserc.json' \
+            --exclude='README.md' \
+            --exclude='COLLABORATING.md' \
+            --exclude='*_to_*.txt' \
+            --exclude='pages/' \
+            ./ "${{ secrets.LH_USER }}@${{ secrets.LH_HOST }}:/var/www/heheppf/"
+
+      - name: 线上健康检查
+        run: |
+          sleep 3
+          code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 https://www.heheppf.com/ || echo "000")
+          echo "首页 HTTP 状态: $code"
+          if [ "$code" != "200" ]; then
+            echo "::error::部署后首页返回 $code，请检查服务器"
+            exit 1
+          fi
+          echo "部署验证通过 ✅"
