@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.2.5/500.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="favicon.ico" sizes="any">
-    <meta name="description" content="品牌世界 - 和膜、和膜和彩、KAKA、H&amp;H 四大品牌矩阵，覆盖不同消费层级与市场定位的汽车膜产品。">
+    <meta name="description" content="品牌世界 - 和膜、和膜和彩、KAKA、H&amp;H 四大品牌矩阵。H&amp;H：A FILM FOR YOUR CAR. A HOME FOR LOVE。">
     <meta property="og:title" content="品牌世界 - 安徽和和新材料有限公司">
-    <meta property="og:description" content="品牌世界 - 和膜、和膜和彩、KAKA、H&amp;H 四大品牌矩阵，覆盖不同消费层级与市场定位的汽车膜产品。">
+    <meta property="og:description" content="品牌世界 - 和膜、和膜和彩、KAKA、H&amp;H 四大品牌矩阵。H&amp;H：A FILM FOR YOUR CAR. A HOME FOR LOVE。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.heheppf.com/brand.html">
         <meta name="twitter:card" content="summary_large_image">
@@ -139,17 +139,17 @@ const brands = {
     },
     'hh': {
         name: 'H&H',
-        slogan: '认真做膜，轻松做事',
-        sloganEn: 'We make serious film with easy energy',
+        slogan: 'A FILM FOR YOUR CAR. A HOME FOR LOVE',
+        sloganZh: '认真做膜，轻松做事',
+        tagline: 'PROTECT WHAT MATTERS, ENGINEER WHAT LASTS',
         banner: 'assets/images/20250716/guanwangpingtaibanner13.jpg',
-        intro: 'H&H 是和和新材面向全球市场推出的全新汽车膜品牌，名称源自东方「和合」哲学，代表与合作伙伴、车主之间和谐共生的关系。承袭母公司二十余年膜材研发制造实力与 109 项专利技术沉淀，H&H 以「品质膜材专家」为定位，致力于让每一段旅程都从容前行。',
+        intro: 'H&H is a global automotive film brand under Anhui Hehe New Materials Co., Ltd., a wholly-owned subsidiary of H&H New Materials Group (stock code: 870328), established in 2004. Starting from hot-melt adhesive films, the company has gradually expanded into functional adhesive tapes and TPU films. With deep expertise in automotive film materials, H&H focuses on the innovative R&D and precision manufacturing of high-performance films. Its portfolio covers TPU Paint Protection Film, TPU Color PPF, Automotive Window Film, Architectural Film and other functional automotive film materials.',
         features: [
-            { title: '上市集团背书', desc: '母公司安徽和和新材为新三板挂牌企业（股票代码：870328），成立于 2004 年，是全链车膜工厂与行业技术领先者。' },
-            { title: '109 项专利', desc: '拥有 109 项专利（含 28 项发明专利），自主研发的 AIOC 一体式复合技术，铸就卓越产品品质。' },
-            { title: '全产业链智造', desc: '3 大生产基地、13 条生产线、40,000㎡ 研发中心，从基材到成品全程自控，确保稳定可靠。' },
-            { title: '年轻活力基因', desc: '品牌色「跃进橙」代表年轻、动感与真诚，H&H 以轻松态度做专业之事，让爱车与爱同行。' }
+            { title: 'EXCELLENT', desc: 'Driven by self-developed AIOC all-in-one coating technology and more than 20 years of film expertise, H&H keeps innovating and evolving.' },
+            { title: 'RELIABLE', desc: 'Built on proven quality and stable manufacturing, H&H delivers dependable protection you can trust on every journey.' },
+            { title: 'GUARDIAN', desc: 'From protection to connection, H&H safeguards what matters and offers you the confidence to move forward with ease.' }
         ],
-        positioning: 'H&H PPF — QUALITY FILM EXPERT'
+        positioning: 'QUALITY FILM EXPERT'
     }
 };
 
@@ -159,14 +159,16 @@ const brand = brands[brandKey] || brands['kaka'];
 
 document.title = brand.name + ' - 安徽和和新材料有限公司';
 document.getElementById('brandTitle').textContent = brand.name;
-document.getElementById('brandSlogan').innerHTML = brand.slogan + (brand.sloganEn ? '<br><span style="font-size:0.75em;opacity:0.85;font-family:Inter,sans-serif;letter-spacing:0.02em">' + brand.sloganEn + '</span>' : '');
+document.getElementById('brandSlogan').innerHTML = (brand.sloganZh ? '<span style="font-size:0.85em">' + brand.sloganZh + '</span><br>' : '') + brand.slogan + (brand.tagline ? '<br><span style="font-size:0.6em;opacity:0.8;font-family:Inter,sans-serif;letter-spacing:0.04em">' + brand.tagline + '</span>' : '');
 document.getElementById('bannerImg').src = brand.banner;
 document.getElementById('crumbName').textContent = brand.name;
 
 const content = document.getElementById('brandContent');
 content.innerHTML = `
     <h2>${brand.name}</h2>
-    <p style="font-size:1.3rem;color:var(--color-primary);margin-bottom:30px">${brand.slogan}${brand.sloganEn ? '<br><span style="font-size:0.7em;opacity:0.85;font-family:Inter,sans-serif;letter-spacing:0.02em">' + brand.sloganEn + '</span>' : ''}</p>
+    <p style="font-size:1.3rem;color:var(--color-primary);margin-bottom:10px;line-height:1.5">${brand.slogan}</p>
+    ${brand.sloganZh ? `<p style="font-size:1.05rem;color:var(--color-primary);margin-bottom:10px;opacity:0.9">${brand.sloganZh}</p>` : ''}
+    ${brand.tagline ? `<p style="font-size:0.85rem;color:var(--color-primary);margin-bottom:30px;opacity:0.75;font-family:Inter,sans-serif;letter-spacing:0.04em">${brand.tagline}</p>` : ''}
     <p>${brand.intro}</p>
     ${brand.positioning ? `<div style="margin-top:40px;text-align:center;padding:40px;background:var(--color-bg-gray);border-radius:8px"><h2 style="margin:0;color:var(--color-primary)">${brand.positioning}</h2></div>` : ''}
     <div style="margin-top:50px">
