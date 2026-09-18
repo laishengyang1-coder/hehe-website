@@ -32,6 +32,118 @@
         .faq-a{padding:0 6px 28px 40px;color:#5b5f66;font-size:15px;line-height:1.95;max-width:780px;}
         @media(max-width:768px){.faq-section h2{font-size:28px;}.faq-q{font-size:16px;}.faq-a{padding-left:6px;}}
     </style>
+    <style>
+        /* Product detail — premium layout */
+        .product-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(40px, 6vw, 80px);
+            align-items: center;
+            margin-bottom: clamp(80px, 10vw, 120px);
+        }
+        .product-intro-text h2 {
+            font-family: var(--serif);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 900;
+            line-height: 1.2;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+        .product-intro-text .lead {
+            font-family: var(--serif);
+            font-size: clamp(18px, 2.2vw, 24px);
+            font-weight: 600;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+        .product-intro-text .body {
+            font-size: 16px;
+            line-height: 1.85;
+            color: var(--text-2);
+        }
+        .product-intro-media {
+            position: relative;
+            overflow: hidden;
+        }
+        .product-intro-media img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+        .features-section { margin-bottom: clamp(80px, 10vw, 120px); }
+        .features-header { margin-bottom: 48px; }
+        .features-header .sec-index {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e60012;
+            letter-spacing: .14em;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .features-header h2 {
+            font-family: var(--serif);
+            font-size: clamp(28px, 3.2vw, 38px);
+            font-weight: 900;
+            color: #111;
+            line-height: 1.2;
+        }
+        .feature-card {
+            text-align: left !important;
+            padding: clamp(36px, 4vw, 52px) clamp(24px, 3vw, 40px) !important;
+        }
+        .feature-index {
+            font-family: var(--sans);
+            font-size: 13px;
+            font-weight: 600;
+            color: #e60012;
+            letter-spacing: .16em;
+            display: block;
+            margin-bottom: 16px;
+        }
+        .feature-card h3 {
+            font-family: var(--serif);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--ink);
+        }
+        .feature-card p {
+            font-size: 15px;
+            line-height: 1.75;
+            color: var(--text-2);
+        }
+        .gallery-section { margin-top: clamp(80px, 10vw, 120px); }
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: clamp(16px, 2.5vw, 32px);
+        }
+        .product-gallery figure { margin: 0; }
+        .product-gallery img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+        .product-gallery figcaption {
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-2);
+            letter-spacing: .04em;
+        }
+        @media(max-width:768px) {
+            .product-intro { grid-template-columns: 1fr; }
+            .product-intro-text h2 { font-size: 28px; }
+            .product-intro-text .lead { font-size: 18px; }
+            .features-header h2 { font-size: 28px; }
+            .product-gallery { grid-template-columns: 1fr; }
+            .feature-card { padding: 32px 24px !important; }
+        }
+    </style>
     <link rel="icon" href="favicon.ico" sizes="any">
     <meta name="description" content="产品应用 - 隐形车衣、改色车衣、太阳膜、天窗冰甲、新能源电池膜材，五大产品线覆盖汽车膜全场景应用。">
     <meta property="og:title" content="产品应用 - 安徽和和新材料有限公司">
@@ -43,7 +155,7 @@
     <meta property="og:image" content="https://www.heheppf.com/assets/images/20250716/guanwangpingtaibanner13.jpg">
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "安徽和和新材料有限公司", "alternateName": "H&H New Material", "url": "https://www.heheppf.com/", "logo": "https://www.heheppf.com/assets/images/logo-dark.png", "description": "全链车膜工厂，专注隐形车衣、改色车衣、太阳膜、天窗冰甲、新能源电池膜材的研发与生产。", "slogan": "We make serious film with easy energy", "foundingDate": "2004", "stockCode": "870328", "knowsAbout": ["汽车膜", "隐形车衣", "改色车衣", "太阳膜", "TPU", "新能源电池膜材"], "address": {"@type": "PostalAddress", "addressCountry": "CN", "addressRegion": "安徽"}, "contactPoint": {"@type": "ContactPoint", "contactType": "sales", "url": "https://www.heheppf.com/contact.html"}}</script>
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.heheppf.com/index.html"}, {"@type": "ListItem", "position": 2, "name": "产品应用", "item": "https://www.heheppf.com/product.html"}]}</script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "Product", "position": 1, "name": "隐形车衣", "url": "https://www.heheppf.com/product.html?id=5"}, {"@type": "Product", "position": 2, "name": "改色车衣", "url": "https://www.heheppf.com/product.html?id=4"}, {"@type": "Product", "position": 3, "name": "太阳膜", "url": "https://www.heheppf.com/product.html?id=3"}, {"@type": "Product", "position": 4, "name": "天窗冰甲", "url": "https://www.heheppf.com/product.html?id=2"}, {"@type": "Product", "position": 5, "name": "新能源电池膜材", "url": "https://www.heheppf.com/product.html?id=1"}]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "Product", "position": 1, "name": "隐形车衣", "url": "https://www.heheppf.com/product.html?id=5", "image": "https://www.heheppf.com/assets/images/20260918/ppf-hero.png"}, {"@type": "Product", "position": 2, "name": "改色车衣", "url": "https://www.heheppf.com/product.html?id=4"}, {"@type": "Product", "position": 3, "name": "太阳膜", "url": "https://www.heheppf.com/product.html?id=3"}, {"@type": "Product", "position": 4, "name": "天窗冰甲", "url": "https://www.heheppf.com/product.html?id=2"}, {"@type": "Product", "position": 5, "name": "新能源电池膜材", "url": "https://www.heheppf.com/product.html?id=1"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"什么是隐形车衣（PPF）？","acceptedAnswer":{"@type":"Answer","text":"隐形车衣即漆面保护膜（Paint Protection Film，简称 PPF），贴附于汽车原厂车漆表面，可抵御日常剐蹭、飞石击打、酸雨与紫外线伤害，同时提升漆面光泽度。"}},{"@type":"Question","name":"TPU 车衣和 PVC 车衣有什么区别？","acceptedAnswer":{"@type":"Answer","text":"TPU（热塑性聚氨酯）车衣具备划痕自动修复、抗黄变、高延展性等优点，使用寿命更长；PVC 材质偏硬、易黄变、无修复能力，正逐步被 TPU 取代。"}},{"@type":"Question","name":"改色车衣能保护原厂车漆吗？","acceptedAnswer":{"@type":"Answer","text":"可以。改色车衣在改变车身颜色、彰显个性的同时，为原厂车漆提供物理保护，且撕除后无残胶、不伤漆面。"}},{"@type":"Question","name":"太阳膜能阻隔多少热量和紫外线？","acceptedAnswer":{"@type":"Answer","text":"优质太阳膜可阻隔 99% 以上的紫外线，并有效降低红外线带来的热感，从而减少车内升温、提升驾乘舒适度并降低空调能耗。"}},{"@type":"Question","name":"车衣装贴后需要注意什么？","acceptedAnswer":{"@type":"Answer","text":"装贴后一周内建议避免高速冲洗与用力擦拭，等待胶层完全固化；日常可使用中性清洁剂进行护理，避免使用强溶剂或研磨类产品。"}}]}</script>
 </head>
 <body>
@@ -176,9 +288,14 @@ const products = {
     '5': {
         name: '隐形车衣',
         subtitle: 'Paint Protection Film',
-        banner: 'assets/images/20250716/guanwangpingtaibanner13.webp',
+        banner: 'assets/images/20260918/ppf-hero.png',
         title: '隐形车衣',
         desc: '全方位守护，让爱车历久弥新，彰显非凡品味。',
+        introImg: 'assets/images/20260918/ppf-gloss.png',
+        gallery: [
+            { src: 'assets/images/20260918/ppf-hydro.png', caption: '疏水自洁，水珠滚落不留痕' },
+            { src: 'assets/images/20260918/ppf-detail.png', caption: '清晰透亮，展现原厂车漆质感' }
+        ],
         features: [
             { title: '自动修复', desc: '表面微小划痕可自动恢复' },
             { title: '超强抗污', desc: '有效抵御各种污渍侵蚀' },
@@ -262,6 +379,8 @@ const product = products[productId] || products['5'];
 
 // Update page content
 document.title = product.name + ' - 安徽和和新材料有限公司';
+const metaDesc = document.querySelector('meta[name="description"]');
+if (metaDesc) metaDesc.setAttribute('content', product.name + ' — ' + product.intro);
 document.getElementById('pageTitle').textContent = product.name;
 document.getElementById('pageSubtitle').textContent = product.subtitle;
 document.getElementById('bannerImg').src = product.banner;
@@ -269,21 +388,49 @@ document.getElementById('crumbName').textContent = product.name;
 
 // Product content
 const content = document.getElementById('productContent');
-content.innerHTML = `
-    <h2>${product.title}</h2>
-    <p>${product.desc}</p>
-    <p style="margin-top:20px">${product.intro}</p>
-    <div style="margin-top:50px">
-        <h2>产品特点</h2>
-        <div class="culture-grid">
-            ${product.features.map(f => `
-                <div class="culture-card">
-                    <h3>${f.title}</h3>
-                    <p>${f.desc}</p>
-                </div>
+const introMedia = product.introImg ? `
+    <div class="product-intro-media fade-in">
+        <img src="${product.introImg}" alt="${product.name} 质感展示" loading="lazy">
+    </div>
+` : '';
+const galleryHtml = product.gallery && product.gallery.length ? `
+    <div class="gallery-section">
+        <div class="product-gallery">
+            ${product.gallery.map(g => `
+                <figure class="fade-in">
+                    <img src="${g.src}" alt="${g.caption || product.name}" loading="lazy">
+                    <figcaption>${g.caption}</figcaption>
+                </figure>
             `).join('')}
         </div>
     </div>
+` : '';
+const featureCards = product.features.map((f, i) => `
+    <div class="culture-card feature-card fade-in">
+        <span class="feature-index">0${i + 1}</span>
+        <h3>${f.title}</h3>
+        <p>${f.desc}</p>
+    </div>
+`).join('');
+content.innerHTML = `
+    <div class="product-intro">
+        <div class="product-intro-text">
+            <h2>${product.title}</h2>
+            <p class="lead">${product.desc}</p>
+            <p class="body">${product.intro}</p>
+        </div>
+        ${introMedia}
+    </div>
+    <div class="features-section">
+        <div class="features-header">
+            <span class="sec-index">FEATURES</span>
+            <h2>产品特点</h2>
+        </div>
+        <div class="culture-grid feature-grid">
+            ${featureCards}
+        </div>
+    </div>
+    ${galleryHtml}
 `;
 
 // Other products
